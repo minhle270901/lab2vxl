@@ -1,0 +1,65 @@
+int counter = 200;
+void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
+{
+	counter--;
+	if(counter == 150)
+	{
+		update7SEG(index_led++);
+	}
+	else if(counter == 100)
+	{
+		update7SEG(index_led++);
+	}
+	else if(counter == 50)
+	{
+		update7SEG(index_led++);
+	}
+	else if(counter == 0)
+	{
+		counter = 200;
+		update7SEG(index_led++);
+		index_led = 0;
+	}
+}
+const int MAX_LED = 4;
+int index_led = 0;
+int led_buffer [4] = {1, 2, 3, 4};
+void update7SEG ( int index )
+{
+	switch ( index ){
+	case 0:
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+		display7SEG(led_buffer[index]);
+	// Display the first 7 SEG with led_buffer [0]
+	break ;
+	case 1:
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+		display7SEG(led_buffer[index]);
+	// Display the second 7 SEG with led_buffer [1]
+	break ;
+	case 2:
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+		display7SEG(led_buffer[index]);
+	// Display the third 7 SEG with led_buffer [2]
+	 break ;
+	case 3:
+	// Display the forth 7 SEG with led_buffer [3]
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET);
+		display7SEG(led_buffer[index]);
+	break ;
+	default :
+	break ;
+	}
+}
