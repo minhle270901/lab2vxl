@@ -1,0 +1,19 @@
+void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
+{
+	counter--;
+	if(counter == 50)
+	{
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6 , GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7 , GPIO_PIN_RESET);
+		display7SEG(0);
+
+	}
+	else if(counter == 0)
+	{
+		counter = 100;
+		HAL_GPIO_TogglePin ( GPIOA , GPIO_PIN_5 );
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6 , GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7 , GPIO_PIN_SET);
+		display7SEG(1);
+	}
+}
