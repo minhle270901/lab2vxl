@@ -1,0 +1,25 @@
+int counter = 100;
+void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
+{
+	counter--;
+	if(counter == 75)
+	{
+		update7SEG(index_led++);
+		HAL_GPIO_TogglePin ( GPIOA , GPIO_PIN_4 );
+		HAL_GPIO_TogglePin ( GPIOA , GPIO_PIN_5 );
+	}
+	else if(counter == 50)
+	{
+		update7SEG(index_led++);
+	}
+	else if(counter == 25)
+	{
+		update7SEG(index_led++);
+	}
+	else if(counter == 0)
+	{
+		counter = 200;
+		update7SEG(index_led++);
+		index_led = 0;
+	}
+}
